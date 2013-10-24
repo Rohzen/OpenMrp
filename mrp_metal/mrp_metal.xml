@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="mrp_production_form_view_inherit" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+			<field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='product_id']" position="after">
+				    <field name="Larghezza" />
+					<field name="Altezza" />
+					<field name="Prof" />
+					<field name="INGSUP" />
+					<field name="INGINF" />
+					<field name="Ante" />
+					<field name="Disegno" />
+				  </xpath> 
+				 <xpath expr="//field[@name='origin']" position="after">
+				 <group name="Assign" col="2">
+					<field name="workcenter_id" />
+					<button name="assign_worktime" type="object" status="draft" icon="gtk-justify-fill" string="Assegna"/>
+				 </group> 
+				 </xpath> 
+			</field>
+        </record>
+		
+ 		<!--<record  id="mrp_production_bom_lines" model="ir.ui.view">
+	             <field name="name">mrp.production.form</field>
+	             <field name="model">mrp.production</field>
+	             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+	             <field name="arch" type="xml">
+                 <xpath expr="/form/sheet/notebook/page/group/group/field[@name='move_lines']/tree[@string='Products to Consume']/field[@name='prodlot_id']" position="after">
+	                     <field name="Larghezza" />
+	                 </xpath>
+	             </field>
+	    </record> -->
+		
+		<record id="view_partner_form_mod" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//form[@string='Partners']/sheet/group/group/field[@name='email']" position="after">
+						<field name="vat"/>
+                </xpath> 
+			</field>
+         </record>	
+		
+		<record id="view_order_form_mod" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//page[@string='Order Lines']/field[@name='note']" position="before">
+					<group name="Acconti">
+						<field name="payment_term" widget="selection"/>
+						<field name="Acconto"/>
+						<field name="ImportoAcconto" string="Importo acconto" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+						<field name="invoiced"/>
+                        <field name="invoice_exists" invisible="1"/>
+					</group>
+                </xpath> 
+			</field>
+         </record>	
+		
+		<record id="view_order_metal_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.metal</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Order Lines']/field[@name='order_line']/form[@string='Sales Order Lines']/group/group/field[@name='product_id']" position="after">
+					<field name="Tipo" />
+					<field name="Ante" />
+					<field name="Disegno" />
+					<field name="Colore" />
+					<field name="Larghezza" />
+					<field name="Altezza" />
+					<field name="Prof" />
+					<field name="INGSUP" />
+					<field name="INGINF" />
+					<field name="S1" />
+					<field name="S2" />
+					<field name="S3" />
+					<field name="S4" />
+					<field name="S5" />
+					<field name="Fermi" />
+					<field name="Fissasicur" />
+					<field name="Fissapancia" />
+					<field name="Fissaregolatore" />
+					<field name="Serpassante" />
+                </xpath> 
+
+				<!-- DETTAGLI PARAMETRIC VALUES IN SALE ORDER -->
+                <xpath expr="//page[@string='Order Lines']/field[@name='order_line']/tree[@string='Sales Order Lines']/field[@name='tax_id']" position="before">
+					<field name="Disegno" />
+					<field name="Colore" />
+					<field name="Larghezza" />
+					<field name="Altezza" />
+					<field name="Prof" />
+					<field name="Tipo" />
+                </xpath>
+
+
+            </field>
+         </record>
+    </data>
+</openerp>

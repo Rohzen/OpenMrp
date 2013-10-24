@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<report id="new_sale_order"
+			string="Ordine di Vendita"
+			model="sale.order"
+			name="sale.ordernew"
+			rml="mrp_metal/report/sale_order_new.rml"
+			auto="False"/>
+    </data>
+</openerp>

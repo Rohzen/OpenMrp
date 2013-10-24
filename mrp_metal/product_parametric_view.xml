@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+	 <!--<menuitem id="prod_config_main" name="Products Parameter" parent="base.menu_base_config" sequence="71"/>
+        Parameters -->
+
+        <record id="view_product_parameter_form" model="ir.ui.view">
+            <field name="name">product.parameter.form</field>
+            <field name="model">product.parameter</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product Parameters">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="uom_id"/>
+                    <field name="default"/>
+					<field name="comment"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_product_parameter_tree" model="ir.ui.view">
+            <field name="name">product.parameter.tree</field>
+            <field name="model">product.parameter</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product Parameters">
+                    <field name="name" select="1"/>
+                    <field name="description" select="1"/>
+                    <field name="uom_id"/>
+                    <field name="default"/>
+					<field name="comment"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_product_parameter_form" model="ir.actions.act_window">
+            <field name="name">Product Parameters</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.parameter</field>
+            <field name="view_type">form</field>
+        </record>
+        <menuitem name="Products/Configuration/Products Parameters" id="menu_product_parameter_form" action="action_product_parameter_form" sequence="72"/>
+
+        <!-- Products -->
+
+        <record id="product_normal_form_view" model="ir.ui.view">
+            <field name="name">product.normal.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Parameters">
+                        <field name="parameters_ids" nolabel="1" colspan="4"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <!-- Parameters Formula in BoM -->
+
+        <record id="view_parameter_value_form" model="ir.ui.view">
+            <field name="name">mrp.bom.parameter.form</field>
+            <field name="model">mrp.bom.parameter</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Parameters Values">
+					<field name="id"/>
+					<field name="bom_id"/>
+                    <field name="parameter_id"/>
+                    <field name="value"/>
+					<field name="eval_order"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_parameter_value_tree" model="ir.ui.view">
+            <field name="name">mrp.bom.parameter.tree</field>
+            <field name="model">mrp.bom.parameter</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Parameters Values">
+					<field name="id"/>
+					<field name="bom_id"/>
+                    <field name="parameter_id" select="1"/>
+                    <field name="value"/>
+					<field name="eval_order"/>
+                </tree>
+            </field>
+        </record>
+
+		<record id="action_bom_parameter_form" model="ir.actions.act_window">
+            <field name="name">Bom Parameters</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.bom.parameter</field>
+            <field name="view_type">form</field>
+        </record>
+        <menuitem name="Products/Configuration/Products Parameters/Bom Parameters" id="menu_bom_parameter_form" action="action_bom_parameter_form" sequence="73" />
+        <!-- BoM -->
+
+        <record id="mrp_bom_parameters_form_view" model="ir.ui.view">
+            <field name="name">mrp.bom.parameters.form.inherit</field>
+            <field name="model">mrp.bom</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Parameters">
+                        <field name="parameter_ids" nolabel="1" colspan="4"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+		
+ <!-- Sale Parameters Values -->
+
+        <record id="view_sale_parameter_value_form" model="ir.ui.view">
+            <field name="name">sale.order.line.parameter.form</field>
+            <field name="model">sale.order.line.parameter</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Parameters Values">
+                    <field name="parameter_id"/>
+                    <field name="value"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sale_parameter_value_tree" model="ir.ui.view">
+            <field name="name">sale.order.line.parameter.tree</field>
+            <field name="model">sale.order.line.parameter</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Parameters Values">
+                    <field name="parameter_id" select="1"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+  <!-- Sale Order 
+
+        <record id="sale_parameters_form_view" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+				<xpath expr="//page[@string='Order Lines']/field[@name='order_line']/form[@string='Sales Order Lines']/group/group/field[@name='product_id']" position="after">
+				      <field name="parameter_ids" nolabel="1" colspan="4"/>
+                </xpath>
+            </field>
+        </record>
+		-->
+	
+		
+    </data>
+</openerp>

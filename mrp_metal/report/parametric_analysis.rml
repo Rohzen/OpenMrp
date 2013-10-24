@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<document filename="test.pdf">
+
+  <!-- dimensioni della pagina e margini -->
+  <template pageSize="(21.0cm, 29.7cm)"
+            topMargin="0.1cm" bottomMargin="0.1cm" leftMargin="1cm" rightMargin="1cm"
+            title="Test" allowSplitting="22" showBoundary="0">
+    <pageTemplate id="first">
+
+      <pageGraphics>
+
+        <!-- header: nome azienda, data, titolo e numero di pagina -->
+        <translate dx="2cm" dy="26.2cm"/>
+        <lineMode width="1.2"/>
+        <lines>
+          0cm 0cm 17cm 0cm
+          0cm 2cm 17cm 2cm
+        </lines>
+        <setFont name="Helvetica" size="8"/>
+        <drawString x="0cm" y="1.2cm">[[ company.partner_id.name ]]</drawString>
+        <drawString x="0cm" y="0.5cm">SCHEDA TECNICA PARAMETRICA</drawString>
+        <setFont name="Helvetica" size="8"/>
+        <drawRightString x="17cm" y="1.2cm">Data: [[ time.strftime('%d/%m/%Y') ]]</drawRightString>
+        <drawRightString x="17cm" y="0.5cm">Pagina: <pageNumber/></drawRightString>
+        <translate dx="-2cm" dy="-26.2cm"/>
+
+      </pageGraphics>
+
+      <!-- parte della pagina che racchiude i dati della sezione story -->
+      <frame id="first" x1="2cm" y1="1cm" width="17cm" height="25cm"/>
+
+    </pageTemplate>
+  </template>
+
+  <stylesheet>
+
+    <!-- stile usato dalla prima tabella -->
+    <blockTableStyle id="Table0">
+      <lineStyle kind="GRID" colorName="lightgrey"/>
+      <blockValign value="MIDDLE"/>
+      <blockLeftPadding length="0.3cm"/>
+      <blockRightPadding length="0.3cm"/>
+      <blockTopPadding length="0.010cm"/>
+      <blockBottomPadding length="0.010cm"/>
+    </blockTableStyle>
+
+    <!-- stile usato dalla seconda tabella -->
+    <blockTableStyle id="Table1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEBELOW" colorName="black" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEABOVE" colorName="lightgrey" start="0,2" stop="-1,-1"/>
+      <blockLeftPadding length="0.3cm"/>
+      <blockRightPadding length="0.3cm"/>
+      <blockTopPadding length="0.1cm"/>
+      <blockBottomPadding length="0.1cm"/>
+    </blockTableStyle>
+
+    <!-- stili dei paragrafi usati all'interno delle tabelle -->
+    <paraStyle name="orderHeader" fontName="Helvetica-Bold" fontSize="8" alignment="CENTER"/>
+    <paraStyle name="orderData" fontName="Helvetica" fontSize="8" alignment="CENTER"/>
+
+    <paraStyle name="productHeader" fontName="Helvetica-Bold" fontSize="8" alignment="LEFT"/>
+    <paraStyle name="productData" fontName="Helvetica" fontSize="8" alignment="LEFT"/>
+	<paraStyle name="productDataBold" fontName="Helvetica-Bold" fontSize="8" alignment="LEFT"/>
+
+  </stylesheet>
+
+  <story>
+
+    <!-- accesso ai dati dell'ordine di produzione -->
+    <para>[[ repeatIn(objects,'o') ]]</para>
+
+    <!-- tabella con i dati dell'ordine di produzione -->
+    <blockTable colWidths="6cm,5cm,6cm" repeatRows="1" style="Table0">
+      <tr>
+        <td><para style="orderHeader">Ordine di Produzione</para></td>
+        <td><para style="orderHeader">Data Prevista</para></td>
+        <td><para style="orderHeader">Ordine di Vendita</para></td>
+      </tr>
+      <tr>
+        <td><para style="orderData">[[ o.name ]]</para></td>
+        <td><para style="orderData">[[ time.strftime('%d/%m/%Y', time.strptime(o.date_planned, '%Y-%m-%d %H:%M:%S')) ]]</para></td>
+        <td><para style="orderData">[[ o.sale_name or '' ]]</para></td>
+      </tr>
+    </blockTable>
+
+    <spacer length="1cm"/>
+
+    <!-- tabella con i dati dell'articolo da produrre -->
+    <blockTable colWidths="6cm,3cm,8cm" repeatRows="1" style="Table1">
+      <tr>
+        <td><para style="productHeader">Prodotto</para></td>
+        <td><para style="productHeader">Quantità</para></td>
+        <td><para style="productHeader">Parametri</para></td>
+      </tr>
+      <tr>
+        <td><para style="productData">[[ o.product_id.name ]]</para></td>
+		<td><para style="productData">[[ '%.2f' % o.product_qty ]] [[ o.product_uom.name ]]</para></td>
+        <td><pre style="productData">[[ o.product_id !=5 and get_parameters(o, o.product_id) ]]</pre></td>
+      </tr>
+    </blockTable>
+
+    <spacer length="1cm"/>
+
+    <!-- tabella con i dati dei componenti -->
+    <blockTable colWidths="6cm,3cm,8cm" repeatRows="1" style="Table1">
+      <tr>
+        <td><para style="productHeader">Componenti</para></td>
+        <td><para style="productHeader">Quantità</para></td>
+        <td><para style="productHeader">Parametri</para></td>
+      </tr>
+      <tr>
+        <td>
+          <!-- accesso ai dati delle righe dell'ordine -->
+          <para>[[ repeatIn(o.move_lines,'line') ]]</para>
+          <para style="productData">[[ line.product_id.name ]]</para>
+        </td>
+        <td><para style="productData">[[ '%.2f' % line.product_qty ]] [[ line.product_uom.name ]]</para></td>
+        <td><pre style="productData">[[ get_parameters(o, line.product_id) ]]</pre></td>
+      </tr>
+    </blockTable>
+
+  </story>
+
+  </document>

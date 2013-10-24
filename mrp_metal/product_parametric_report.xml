@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<report id="parametric_analysis_print"
+			string="Scheda tecnica parametrica"
+			model="mrp.production"
+			name="parametric.analysis.print"
+			rml="mrp_metal/report/parametric_analysis.rml"
+			auto="False"/>
+    </data>
+</openerp>
